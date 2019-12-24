@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>iKey.ru: Документация</title>
+    
+      <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="revised" content="2019-12-24T19:41:08 MSK">
+<title>iKey протокол :: iKey.ru: Документация</title>
+<link rel="shortcut icon" href="/docs/images/favicon.png" type="image/x-icon" />
+<link href="/docs/css/font-awesome.min.css" rel="stylesheet">
+<link href="/docs/css/nucleus.css" rel="stylesheet">
+<link href="/docs/theme-flex/style.css" rel="stylesheet">
+
+<link rel="stylesheet" href="/docs/css/bootstrap.min.css">
+<script src="/docs/js/jquery-2.x.min.js"></script>
+<script type="text/javascript">
+      var baseurl = "https:\/\/ikey-ru.github.io\/docs\/";
+</script>
+<meta name="description" content="">
+
+
+
+    
+  </head>
+  <body data-url="/docs/protocols/ikey/">
+    
+      <header>
+  <div class="logo">
+    
+	
+  
+    <a class="baselink" href="https://ikey-ru.github.io/docs/">iKey.ru: Документация</a>
+  
+
+
+  </div>
+  <div class="burger"><a href="javascript:void(0);" style="font-size:15px;">&#9776;</a></div>
+</header>
+<article>
+  <aside>
+    <ul class="menu">
+          <li data-nav-id="/docs/" class="dd-item">
+          <a href="/docs/">
+            <i class="fa fa-fw fa-home"></i>
+          </a>
+          </li>
+    <li data-nav-id="https://ikey-ru.github.io/docs/keys/" class="dd-item
+        ">
+      <div>
+      <a href="/docs/keys/"><i class='fa fa-key'>&nbsp;</i> Виды ключей</a><i class="fa fa-circle-thin read-icon"></i>
+      </div>
+    </li>
+    <li data-nav-id="https://ikey-ru.github.io/docs/protocols/" class="dd-item parent haschildren
+        ">
+      <div>
+      <a href="/docs/protocols/">Протоколы устройств</a>
+            <i class="fa fa-angle-down fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
+      </div>
+        <ul>
+    <li data-nav-id="https://ikey-ru.github.io/docs/protocols/ikey/" class="dd-item parent active
+        ">
+      <div>
+      <a href="/docs/protocols/ikey/"><i class='fa fa-exchange'>&nbsp;</i> iKey протокол</a><i class="fa fa-circle-thin read-icon"></i>
+      </div>
+    </li>
+        </ul>
+    </li>
+
+
+
+
+    </ul>
+    <section>
+    </section>
+  </aside>
+  <section class="page">
+    
+    <div class="nav-select">
+      <center>Navigation : 
+        <select onchange="javascript:location.href = this.value;">
+          
+    <option value="/docs/keys/" >
+   Виды ключей</option>
+    <option value="/docs/protocols/" >
+   Протоколы устройств</option> 
+    <option value="/docs/protocols/ikey/"  selected>
+  - 
+   iKey протокол</option> 
+  
+  
+
+
+
+        </select>
+      </center>
+    </div>
+      <div>
+        <div class="searchbox">
+          <input data-search-input id="search-by" type="text" placeholder="">
+        </div>
+        <script type="text/javascript" src="/docs/js/lunr.min.js"></script>
+        <script type="text/javascript" src="/docs/js/auto-complete.js"></script>
+        <link href="/docs/css/auto-complete.css" rel="stylesheet">
+        <script type="text/javascript">
+          
+              var baseurl = "https:\/\/ikey-ru.github.io\/docs\/";
+          
+        </script>
+        <script type="text/javascript" src="/docs/js/search.js"></script>
+      </div>
+    
+
+    <h1>iKey протокол</h1>
+    
+    
+    
+
+
+
+<h4 id="оглавление">Оглавление</h4>
+
+<ol>
+<li><a href="#общая-характеристика-устройства">Общая характеристика устройства</a></li>
+<li><a href="#поддерживаемые-типы-ключей">Поддерживаемые типы ключей</a></li>
+<li>Получение статуса устройства</li>
+<li>Передача на устройство коротких ключей (менее 8 байт)</li>
+<li>Передача на устройство длинных кодов ключей (более 8 байт, протокольное расширение Overdrive)</li>
+<li>Выгрузка дампа с устройства (на примере дампа ds1996)</li>
+<li>Установка параметров эмуляции ключей Cyfral, Metakom, Dallas</li>
+<li>Обновление прошивки iKey</li>
+</ol>
+
+<h5 id="общая-характеристика-устройства">Общая характеристика устройства</h5>
+
+<p>Устройство iKey является устройством универсального ключа, работающим в паре с мобильным устройством. iKey подключается к мобильному устройству посредством Bluetooth (BLE) и с помощью клиента, установленного на мобильное устройство, в iKey можно передать на эмуляцию коды ключей. iKey предоставляет следующие сервисы Bluetooth:</p>
+
+<ol>
+<li><strong>Generic Access</strong> (UUID 0x1800) - не используется, 0x1800@0x2A00 = iKey</li>
+<li><strong>Generic Attribute</strong> (UUID 0x1801) - не используется</li>
+<li><strong>Device Information</strong> (UUID 0x180A) - не используется, 0x180A@0x2A29 = iKey LLC</li>
+<li><strong>Battery service</strong> (UUID 0x180F):
+
+<ul>
+<li>0x180F@0x2A19 {READ}: процент заряда устройства, байт, целочисленное, значение от 0 до 100</li>
+<li>0x180F@0000FFF3-0000-1000-8000-00805F9B34FB {READ}: статус зарядки устройства, байт: <strong>0x00</strong> - устройство не заряжается, <strong>0x01</strong> - устройство заряжается</li>
+</ul></li>
+<li><strong>Device communication service</strong> (UUID 0x0000FFF0-0000-1000-8000-00805F9B34FB):
+
+<ul>
+<li>0x0000FFF0-0000-1000-8000-00805F9B34FB@0x0000FFF1-0000-1000-8000-00805F9B34FB {WRITE NO RESPONSE}: характеристика для передачи протокольных команд на устройство</li>
+<li>0x0000FFF0-0000-1000-8000-00805F9B34FB@0x0000FFF2-0000-1000-8000-00805F9B34FB {NOTIFY, READ}: характеристика для передачи протокольных команд с устройства (посредством уведомлений)</li>
+</ul></li>
+<li><strong>Device mode service</strong> (UUID 0x0000FFF4-0000-1000-8000-00805F9B34FB):
+
+<ul>
+<li>0x0000FFF4-0000-1000-8000-00805F9B34FB@0x0000FFF5-0000-1000-8000-00805F9B34FB {READ, WRITE NO RESPONSE}: характеристика для чтения\записи текущего режима устройства, <strong>0x00</strong> - ЦПУ ВЫКЛ, <strong>0x01</strong> - ЦПУ ВКЛ, <strong>0x03</strong> - режим загрузчика</li>
+</ul></li>
+</ol>
+
+<p><a href="#оглавление">Вернуться к оглавлению ^</a></p>
+
+<h5 id="поддерживаемые-типы-ключей">Поддерживаемые типы ключей</h5>
+
+<p>К примеру, ссылка на <a href="/docs/keys/#dallas">Dallas</a></p>
+
+
+
+    
+    
+        <div class="chevrons">
+    <div id="navigation">
+<a class="nav nav-prev" href="/docs/protocols/" title="Протоколы устройств"> <i class="fa fa-chevron-left"></i><label>Протоколы устройств</label></a>
+    <a class="nav nav-next" href="/docs/keys/" title="Виды ключей" style="margin-right: 0px;"><label>Виды ключей</label><i class="fa fa-chevron-right"></i></a></div>
+  </div>
+
+  </section>
+</article>
+
+<footer>
+
+<div class="footline">
+    
+
+    
+
+    
+    <div class="date">
+        <i class='fa fa-calendar'></i>  24/12/2019
+    </div>
+    
+
+    
+  </div>
+
+
+	<div>
+
+
+  
+    
+  
+
+
+
+	</div>
+</footer>
+
+<script src="/docs/js/clipboard.min.js"></script>
+
+<link href="/docs/css/featherlight.min.css" rel="stylesheet">
+<script src="/docs/js/featherlight.min.js"></script>
+
+
+
+<script src="/docs/theme-flex/script.js"></script>
+
+
+    
+
+    
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Протоколы устройств on iKey.ru: Документация</title>
+    <link>https://ikey-ru.github.io/docs/protocols/</link>
+    <description>Recent content in Протоколы устройств on iKey.ru: Документация</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru-ru</language>
+    <lastBuildDate>Tue, 24 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://ikey-ru.github.io/docs/protocols/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+  </channel>
+</rss>
